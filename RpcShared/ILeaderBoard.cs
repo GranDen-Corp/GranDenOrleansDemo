@@ -24,7 +24,7 @@ namespace RpcShared
 
         #region Register Player Data
 
-        Task UpdatePlayerScore(Guid playerId, ulong score);
+        Task UpdatePlayerScore(IPlayerDto playerDto, ulong score);
 
         #endregion
     }

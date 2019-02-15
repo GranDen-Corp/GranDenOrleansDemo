@@ -96,19 +96,27 @@ namespace LeaderBoardGrain
             return Task.FromResult(ret);
         }
 
-        public Task UpdatePlayerScore(Guid playerId, ulong score)
+        public async Task UpdatePlayerScore(IPlayerDto playerDto, ulong score)
         {
             var rankList = State.LeaderBoardPlayerList;
             for (var node = rankList.First; node != null; node = node.Next)
             {
-                if (node.Value.PlayerId == playerId)
+                if (node.Value.PlayerId == playerDto.PlayerId)
                 {
                     node.Value.Score = score;
                     break;
                 }
             }
-            State.LeaderBoardPlayerList = new LinkedList<RankingPlayerInfo>(rankList.OrderByDescending(i=>i.Score));
-            return Task.CompletedTask;
+
+            rankList.AddLast(new RankingPlayerInfo
+            {
+                PlayerId = playerDto.PlayerId,
+                PlayerName = playerDto.PlayerName,
+                Score = score
+            });
+
+            State.LeaderBoardPlayerList = new LinkedList<RankingPlayerInfo>(rankList.OrderByDescending(i => i.Score));
+            await WriteStateAsync();
         }
     }
 }

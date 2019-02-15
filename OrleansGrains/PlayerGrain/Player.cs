@@ -24,7 +24,7 @@ namespace PlayerGrain
             State.PlayerName = playerName;
             State.Score = 0L;
             await WriteStateAsync();
-            _logger.LogInformation($"PlayerId {{{State.PlayerId}:{State.PlayerName}}} created");
+            _logger.LogInformation($"PlayerId {{{State.PlayerId} : {State.PlayerName}}} created");
             return State;
         }
 
@@ -54,7 +54,7 @@ namespace PlayerGrain
             }
             State.Score = currentScore;
 
-            await _leaderBoardGrain.UpdatePlayerScore(State.PlayerId, currentScore);
+            await _leaderBoardGrain.UpdatePlayerScore(State, currentScore);
             await WriteStateAsync();
         }
 
