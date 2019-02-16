@@ -12,7 +12,7 @@ namespace RpcShared
 
         #region Report Player Score
 
-        Task<long> GetPlayerRank(Guid playerId);
+        ValueTask<long> GetPlayerRank(Guid playerId);
 
         Task<List<RankingPlayerInfo>> TopRankings(int topCount);
 

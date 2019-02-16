@@ -20,7 +20,7 @@ namespace PlayerGrain
 
         public async Task<IPlayerDto> CreatePlayer(string playerName)
         {
-            State.PlayerId = Guid.NewGuid();
+            State.PlayerId = this.GetPrimaryKey();
             State.PlayerName = playerName;
             State.Score = 0L;
             await WriteStateAsync();
@@ -28,12 +28,11 @@ namespace PlayerGrain
             return State;
         }
 
-        public async Task<bool> JoinGame(Ulid leaderBoardId)
+        public async Task JoinGame(Ulid leaderBoardId)
         {
             _leaderBoardGrain = GrainFactory.GetGrain<ILeaderBoard>(leaderBoardId.ToGuid());
             State.CurrentJoinedGame = leaderBoardId;
             await WriteStateAsync();
-            return true;
         }
 
         public async Task AddScore(int amount)
@@ -58,12 +57,12 @@ namespace PlayerGrain
             await WriteStateAsync();
         }
 
-        public Task<ulong> CurrentScore()
+        public ValueTask<ulong> CurrentScore()
         {
-            return Task.FromResult(State.Score);
+            return new ValueTask<ulong>(State.Score);
         }
 
-        public async Task<long> GetCurrentRank()
+        public async ValueTask<long> GetCurrentRank()
         {
             if (_leaderBoardGrain == null)
             {

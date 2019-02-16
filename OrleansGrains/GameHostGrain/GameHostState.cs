@@ -4,6 +4,6 @@ namespace GameHostGrain
 {
     public class GameHostState
     {
-        public Ulid CurrentLeaderBoard { get; set; }
+        public Ulid? CurrentLeaderBoard { get; set; }
     }
 }

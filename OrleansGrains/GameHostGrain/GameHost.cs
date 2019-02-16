@@ -16,7 +16,7 @@ namespace GameHostGrain
             _logger = logger;
         }
 
-        public async Task<Ulid> OpenLeaderBoard(DateTimeOffset startAt, TimeSpan openDuration)
+        public async ValueTask<Ulid> OpenLeaderBoard(DateTimeOffset startAt, TimeSpan openDuration)
         {
             var boardId = Ulid.NewUlid(startAt);
             var boardGrain = GrainFactory.GetGrain<ILeaderBoard>(boardId.ToGuid());
@@ -25,6 +25,11 @@ namespace GameHostGrain
             await WriteStateAsync();
             _logger.LogInformation($"LeaderBoard {boardId} created");
             return boardId;
+        }
+
+        public Task<Ulid?> GetCurrentLeaderBoard()
+        {
+            return Task.FromResult(State.CurrentLeaderBoard);
         }
     }
 }

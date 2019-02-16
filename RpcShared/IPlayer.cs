@@ -10,12 +10,12 @@ namespace RpcShared
     {
         Task<IPlayerDto> CreatePlayer(string playerName);
 
-        Task<bool> JoinGame(Ulid leaderBoardId);
+        Task JoinGame(Ulid leaderBoardId);
 
         Task AddScore(int amount);
-        Task<ulong> CurrentScore();
+        ValueTask<ulong> CurrentScore();
 
-        Task<long> GetCurrentRank();
+        ValueTask<long> GetCurrentRank();
 
         Task<List<IPlayerDto>> GetAboveMe3Players();
 

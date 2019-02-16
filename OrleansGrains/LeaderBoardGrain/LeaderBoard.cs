@@ -28,14 +28,14 @@ namespace LeaderBoardGrain
             _logger.LogInformation($"LeaderBoard {{{boardId}}} initialized");
         }
 
-        public Task<long> GetPlayerRank(Guid playerId)
+        public ValueTask<long> GetPlayerRank(Guid playerId)
         {
             var count = 0L;
             for (var node = State.LeaderBoardPlayerList.First; node != null; node = node.Next, count++)
             {
                 if (node.Value.PlayerId == playerId)
                 {
-                    return Task.FromResult(count);
+                    return new ValueTask<long>(count);
                 }
             }
             throw new Exception($"Player {playerId} is not join the Game");

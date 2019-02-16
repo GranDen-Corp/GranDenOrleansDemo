@@ -6,8 +6,10 @@ using Orleans;
 
 namespace RpcShared
 {
-    public interface IGameHost : IGrain
+    public interface IGameHost : IGrainWithIntegerKey
     {
-        Task<Ulid> OpenLeaderBoard(DateTimeOffset startAt, TimeSpan openDuration);
+        ValueTask<Ulid> OpenLeaderBoard(DateTimeOffset startAt, TimeSpan openDuration);
+
+        Task<Ulid?> GetCurrentLeaderBoard();
     }
 }
